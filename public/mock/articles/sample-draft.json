@@ -1,0 +1,110 @@
+{
+  "id": "sample-draft-001",
+  "title": "居家生活小妙招：10个让你生活更轻松的实用技巧",
+  "summary": "整理了10个超实用的居家生活小技巧，从厨房清洁到衣物收纳，帮助你提升日常生活效率，让家变得更温馨整洁。",
+  "coverImage": "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22675%22%20viewBox%3D%220%200%201200%20675%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%3Cstop%20offset%3D%220%25%22%20style%3D%22stop-color%3A%23fb923c%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20style%3D%22stop-color%3A%23f97316%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20fill%3D%22url(%23g)%22%20width%3D%221200%22%20height%3D%22675%22%2F%3E%3Ctext%20fill%3D%22%23ffffff%22%20font-family%3D%22sans-serif%22%20font-size%3D%2248%22%20font-weight%3D%22bold%22%20x%3D%2250%25%22%20y%3D%2245%25%22%20text-anchor%3D%22middle%22%3E%E5%B1%85%E5%AE%B6%E7%94%9F%E6%B4%BB%E5%B0%8F%E5%A6%99%E6%8B%9B%3C%2Ftext%3E%3Ctext%20fill%3D%22%23ffffff%22%20font-family%3D%22sans-serif%22%20font-size%3D%2224%22%20x%3D%2250%25%22%20y%3D%2255%25%22%20text-anchor%3D%22middle%22%3E10%E4%B8%AA%E8%AE%A9%E4%BD%A0%E7%94%9F%E6%B4%BB%E6%9B%B4%E8%BD%BB%E6%9D%BE%E7%9A%84%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "blocks": [
+    {
+      "id": "block_h2_001",
+      "type": "h2",
+      "content": "一、厨房清洁小妙招",
+      "meta": {},
+      "order": 0
+    },
+    {
+      "id": "block_paragraph_001",
+      "type": "paragraph",
+      "content": "厨房是家中最容易积累油污的地方，很多人面对顽固油渍束手无策。其实，利用家中常见的食材，就能轻松搞定这些清洁难题，既环保又省钱。",
+      "meta": {},
+      "order": 1
+    },
+    {
+      "id": "block_tip_001",
+      "type": "tip",
+      "content": "小苏打和白醋是天然的清洁神器！将两者混合后会产生丰富泡沫，能有效溶解油污，而且对人体无害，特别适合清洁厨房台面和灶台。",
+      "meta": {},
+      "order": 2
+    },
+    {
+      "id": "block_h3_001",
+      "type": "h3",
+      "content": "1. 油烟机滤网清洁",
+      "meta": {},
+      "order": 3
+    },
+    {
+      "id": "block_list_001",
+      "type": "ordered-list",
+      "content": "",
+      "meta": {
+        "items": [
+          "拆下滤网放入大盆中，倒入热水没过滤网",
+          "加入3勺小苏打和半碗白醋，浸泡30分钟",
+          "用软毛刷轻轻刷洗，油污即可轻松脱落",
+          "用清水冲洗干净，晾干后装回即可"
+        ]
+      },
+      "order": 4
+    },
+    {
+      "id": "block_warning_001",
+      "type": "warning",
+      "content": "清洗油烟机时务必先拔掉电源插头！不要用钢丝球擦拭滤网表面，以免刮伤涂层影响使用效果。浸泡时水温控制在60-70度最佳。",
+      "meta": {},
+      "order": 5
+    },
+    {
+      "id": "block_image_001",
+      "type": "image",
+      "content": "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22800%22%20height%3D%22500%22%20viewBox%3D%220%200%20800%20500%22%3E%3Crect%20fill%3D%22%23fef3c7%22%20width%3D%22800%22%20height%3D%22500%22%2F%3E%3Crect%20fill%3D%22%23fde68a%22%20x%3D%22100%22%20y%3D%2280%22%20width%3D%22600%22%20height%3D%22340%22%20rx%3D%2212%22%2F%3E%3Ctext%20fill%3D%22%2392400e%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%20font-weight%3D%22bold%22%20x%3D%2250%25%22%20y%3D%2250%25%22%20text-anchor%3D%22middle%22%3E%E5%8E%A8%E6%88%BF%E6%B8%85%E6%B4%81%E7%A4%BA%E6%84%8F%E5%9B%BE%3C%2Ftext%3E%3C%2Fsvg%3E",
+      "meta": {
+        "alt": "厨房清洁示意图"
+      },
+      "order": 6
+    },
+    {
+      "id": "block_h2_002",
+      "type": "h2",
+      "content": "二、衣物收纳整理技巧",
+      "meta": {},
+      "order": 7
+    },
+    {
+      "id": "block_paragraph_002",
+      "type": "paragraph",
+      "content": "换季时衣物收纳让人头疼？掌握正确的折叠和收纳方法，衣柜空间能瞬间翻倍。以下是经过验证的实用收纳方法，帮你告别凌乱的衣橱。",
+      "meta": {},
+      "order": 8
+    },
+    {
+      "id": "block_h3_002",
+      "type": "h3",
+      "content": "推荐收纳工具",
+      "meta": {},
+      "order": 9
+    },
+    {
+      "id": "block_list_002",
+      "type": "unordered-list",
+      "content": "",
+      "meta": {
+        "items": [
+          "真空压缩袋：适合存放羽绒服、棉被等大件物品",
+          "抽屉分隔板：将内衣、袜子分类收纳，一目了然",
+          "悬挂式收纳袋：利用衣柜垂直空间，存放包包、配饰",
+          "透明收纳盒：方便查看内容物，叠放更省空间",
+          "门后挂钩：利用门背空间悬挂围巾、帽子"
+        ]
+      },
+      "order": 10
+    },
+    {
+      "id": "block_tip_002",
+      "type": "tip",
+      "content": "日式\"卷折法\"能让衣物节省约40%的收纳空间！将衣物对折后从下摆向上卷起，既不会产生褶皱，又能像文件一样立在抽屉中，取用时一目了然。",
+      "meta": {},
+      "order": 11
+    }
+  ],
+  "updatedAt": "2026-06-12T10:00:00.000Z"
+}
