@@ -6,7 +6,8 @@ import type {
   ToastMessage,
 } from '../types/article';
 import { MAX_BLOCKS, MAX_SUMMARY_LENGTH, MAX_ALERT_LENGTH } from '../types/article';
-import { createBlock, reorderBlocks, deepCloneDraft, generateBlockId } from '../utils/blockUtils';
+import { createBlock, reorderBlocks, deepCloneDraft } from '../utils/blockUtils';
+import { articleApi } from '../api/articleApi';
 
 interface EditorStore extends EditorState {
   history: {
@@ -50,11 +51,22 @@ const emptyDraft: ArticleDraft = {
   summary: '',
   coverImage: '',
   blocks: [],
+  status: 'draft',
+  wordCount: 0,
+  blockCount: 0,
   updatedAt: new Date().toISOString(),
+  createdAt: new Date().toISOString(),
 };
 
-const createEmptyBlock = (type: BlockType, order: number): ArticleBlock => {
-  return createBlock(type, order);
+const calcWordCount = (draft: ArticleDraft): number => {
+  let count = 0;
+  for (const block of draft.blocks) {
+    count += block.content.length;
+    if (block.meta.items) {
+      count += block.meta.items.reduce((s, item) => s + item.length, 0);
+    }
+  }
+  return count;
 };
 
 const pushToHistory = (
@@ -134,10 +146,17 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
 
     const newBlocks = [...draft.blocks];
     newBlocks[blockIndex] = { ...block, ...finalUpdates };
+    const newWordCount = calcWordCount({ ...draft, blocks: newBlocks });
 
     pushHistory();
     set({
-      draft: { ...draft, blocks: newBlocks, updatedAt: new Date().toISOString() },
+      draft: {
+        ...draft,
+        blocks: newBlocks,
+        blockCount: newBlocks.length,
+        wordCount: newWordCount,
+        updatedAt: new Date().toISOString(),
+      },
       isDirty: true,
     });
   },
@@ -148,12 +167,17 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
       showToast('warning', `块数量已达上限（${MAX_BLOCKS}），无法继续添加`);
       return false;
     }
-    const newBlock = createEmptyBlock(type, draft.blocks.length);
+    const newBlock = createBlock(type, draft.blocks.length);
+    const newBlocks = [...draft.blocks, newBlock];
+    const newWordCount = calcWordCount({ ...draft, blocks: newBlocks });
+
     pushHistory();
     set({
       draft: {
         ...draft,
-        blocks: [...draft.blocks, newBlock],
+        blocks: newBlocks,
+        blockCount: newBlocks.length,
+        wordCount: newWordCount,
         updatedAt: new Date().toISOString(),
       },
       isDirty: true,
@@ -166,9 +190,17 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
     const newBlocks = draft.blocks
       .filter((b) => b.id !== id)
       .map((b, i) => ({ ...b, order: i }));
+    const newWordCount = calcWordCount({ ...draft, blocks: newBlocks });
+
     pushHistory();
     set({
-      draft: { ...draft, blocks: newBlocks, updatedAt: new Date().toISOString() },
+      draft: {
+        ...draft,
+        blocks: newBlocks,
+        blockCount: newBlocks.length,
+        wordCount: newWordCount,
+        updatedAt: new Date().toISOString(),
+      },
       isDirty: true,
     });
   },
@@ -248,10 +280,8 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
     }
     setSaving(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      const payload = { ...draft, updatedAt: new Date().toISOString() };
-      console.log('[Mock API] PUT /api/articles/:id/draft', payload);
-      set({ lastSavedDraft: deepCloneDraft(payload), draft: payload });
+      const saved = await articleApi.save(draft.id, draft);
+      set({ lastSavedDraft: deepCloneDraft(saved), draft: saved });
       setDirty(false);
       showToast('success', '草稿保存成功');
       return true;
@@ -265,13 +295,12 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
 
   loadDraft: async (id: string) => {
     try {
-      const res = await fetch(`/mock/articles/sample-draft.json`);
-      if (!res.ok) throw new Error('加载失败');
-      const data = (await res.json()) as ArticleDraft;
+      const data = await articleApi.get(id);
+      if (!data) throw new Error('草稿不存在');
       const draft: ArticleDraft = {
         ...data,
         id: id || data.id,
-        blocks: data.blocks.map((b, i) => ({ ...b, order: i, id: b.id || generateBlockId() })),
+        blocks: data.blocks.map((b, i) => ({ ...b, order: i })),
       };
       set({
         draft: deepCloneDraft(draft),
@@ -284,12 +313,8 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
     } catch (err) {
       console.error('加载草稿失败:', err);
       const fallback: ArticleDraft = {
+        ...emptyDraft,
         id: id || `draft_${Date.now()}`,
-        title: '',
-        summary: '',
-        coverImage: '',
-        blocks: [],
-        updatedAt: new Date().toISOString(),
       };
       set({
         draft: fallback,

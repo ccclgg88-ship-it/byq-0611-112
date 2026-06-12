@@ -1,18 +1,15 @@
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Home from '@/pages/Home';
 import EditorPage from '@/pages/EditorPage';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Navigate to="/editor/draft_default" replace />,
+    element: <Home />,
   },
   {
     path: '/editor/:id',
     element: <EditorPage />,
-  },
-  {
-    path: '/other',
-    element: <div className="flex items-center justify-center h-screen text-xl text-gray-500">Other Page - Coming Soon</div>,
   },
 ]);
 

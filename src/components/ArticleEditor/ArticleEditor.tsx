@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useMemo } from 'react';
-import { Save, Undo2, Redo2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Save, Undo2, Redo2, CheckCircle2, AlertCircle, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useEditorStore } from '../../store/editorStore';
 import { useDebounce } from '../../hooks/useDebounce';
 import { MAX_SUMMARY_LENGTH } from '../../types/article';
@@ -28,6 +29,7 @@ function formatTime(isoStr: string): string {
 }
 
 export function ArticleEditor() {
+  const navigate = useNavigate();
   const draft = useEditorStore((s) => s.draft);
   const isDirty = useEditorStore((s) => s.isDirty);
   const isSaving = useEditorStore((s) => s.isSaving);
@@ -139,6 +141,14 @@ export function ArticleEditor() {
       <div className="w-[55%] h-full overflow-y-auto border-r border-gray-200 bg-white">
         <div className="p-6 space-y-5">
           <div className="flex items-center gap-3 pb-4 border-b border-gray-100">
+            <button
+              type="button"
+              onClick={() => navigate('/')}
+              className="p-1.5 -ml-1.5 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+              title="返回草稿列表"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </button>
             <h1 className="text-lg font-bold text-gray-900">文章编辑器</h1>
             <div className="ml-auto flex items-center gap-2">
               <div
