@@ -1,5 +1,5 @@
-import { useState, useCallback, useEffect } from 'react';
-import { Save, Undo2, Redo2 } from 'lucide-react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
+import { Save, Undo2, Redo2, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useEditorStore } from '../../store/editorStore';
 import { useDebounce } from '../../hooks/useDebounce';
 import { MAX_SUMMARY_LENGTH } from '../../types/article';
@@ -15,6 +15,17 @@ import { ArticleRenderer } from './ArticleRenderer';
 import { Toast } from '../common/Toast';
 import { cn } from '../../lib/utils';
 import type { ArticleBlock } from '../../types/article';
+
+function formatTime(isoStr: string): string {
+  try {
+    const d = new Date(isoStr);
+    if (isNaN(d.getTime())) return '';
+    const pad = (n: number) => String(n).padStart(2, '0');
+    return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+  } catch {
+    return '';
+  }
+}
 
 export function ArticleEditor() {
   const draft = useEditorStore((s) => s.draft);
@@ -35,6 +46,8 @@ export function ArticleEditor() {
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
   const debouncedDraft = useDebounce(draft, 300);
+
+  const lastSavedTime = useMemo(() => formatTime(draft.updatedAt), [draft.updatedAt]);
 
   const summaryLen = draft.summary.length;
   const summaryOver = summaryLen > MAX_SUMMARY_LENGTH * 0.9;
@@ -128,6 +141,28 @@ export function ArticleEditor() {
           <div className="flex items-center gap-3 pb-4 border-b border-gray-100">
             <h1 className="text-lg font-bold text-gray-900">文章编辑器</h1>
             <div className="ml-auto flex items-center gap-2">
+              <div
+                className={cn(
+                  'flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium',
+                  isDirty
+                    ? 'bg-orange-50 text-orange-600 border border-orange-200'
+                    : 'bg-green-50 text-green-700 border border-green-200'
+                )}
+                title={isDirty ? '有未保存的变更' : `已保存 · ${lastSavedTime}`}
+              >
+                {isDirty ? (
+                  <>
+                    <AlertCircle className="w-3.5 h-3.5" />
+                    <span>未保存</span>
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>已保存</span>
+                    {lastSavedTime && <span className="text-green-600/70">· {lastSavedTime}</span>}
+                  </>
+                )}
+              </div>
               <button
                 type="button"
                 onClick={undo}
@@ -150,14 +185,16 @@ export function ArticleEditor() {
                 type="button"
                 onClick={saveDraft}
                 disabled={isSaving}
-                className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors disabled:opacity-50"
+                className={cn(
+                  'flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white rounded-lg transition-colors disabled:opacity-50',
+                  isDirty
+                    ? 'bg-orange-500 hover:bg-orange-600'
+                    : 'bg-gray-400 hover:bg-gray-500'
+                )}
               >
                 <Save className="w-4 h-4" />
                 {isSaving ? '保存中...' : '保存'}
               </button>
-              {isDirty && (
-                <span className="text-xs text-orange-500 font-medium">未保存</span>
-              )}
             </div>
           </div>
 
